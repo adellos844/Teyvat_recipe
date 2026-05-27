@@ -19,7 +19,7 @@ class Receta(models.Model):
     Autor = models.ForeignKey(User, on_delete=models.CASCADE)  
     Rareza = models.PositiveIntegerField(help_text="Estrellas del 1 al 5")
     Fecha_de_creación = models.DateTimeField(auto_now_add=True)
-    Imagen = models.ImageField(upload_to='recetas_img/', null=True, blank=True) 
+    Imagen = models.ImageField(upload_to='recetas/', null=True, blank=True) 
     def __str__(self):
         return self.Título
     

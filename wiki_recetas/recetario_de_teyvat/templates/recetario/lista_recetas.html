@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recetario de Teyvat</title>
+</head>
+<body>
+    <h1>Recetas de Genshin Impact</h1>
+    <hr>
+    <ul>
+        {% for receta in recetas %}
+            <li>
+                <a href="{% url 'detalle_recetas' receta.pk %}">
+                    <strong>{{ receta.Título }}</strong>
+                </a> 
+                - Región: {{ receta.get_Región_display }} | Rareza: {{ receta.Rareza }}⭐
+            </li>
+        {% empty %}
+            <li>Aún no hay recetas registradas.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
