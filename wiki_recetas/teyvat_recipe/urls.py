@@ -32,6 +32,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('registro/', recetario_views.registro, name='registro'),
+    path('buscar-externo/', recetario_views.buscar_recetas_externas, name='buscar_externo'),
+    path('guardar-externo/', recetario_views.guardar_receta_externa, name='guardar_receta_externa'),
 ]
 
 if settings.DEBUG:

@@ -1,9 +1,11 @@
+import requests
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import Receta, Comentario
+from .models import Receta, Comentario, Categoria
 from .forms import RecetaForm, ComentarioForm
 
 def lista_recetas(request):
@@ -111,3 +113,66 @@ def registro(request):
     form.fields['password1'].label = "Contraseña"
     form.fields['password2'].label = "Confirmar contraseña"
     return render(request, 'registration/registro.html', {'form': form})
+
+def buscar_recetas_externas(request):
+    query = request.GET.get('q', '')
+    resultados = []
+    
+    if query:
+        url = f"https://www.themealdb.com/api/json/v1/1/search.php?s={query}"
+        response = requests.get(url)
+        data = response.json()
+        
+        if data and data['meals']:
+            resultados = data['meals']
+            
+    return render(request, 'buscar_externo.html', {'resultados': resultados, 'query': query})
+
+@login_required
+def guardar_receta_externa(request):
+    if request.method == 'POST':
+        id_meal = request.POST.get('id_meal')
+        
+        url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={id_meal}"
+        response = requests.get(url)
+        data = response.json()
+        
+        if data and data['meals']:
+            meal = data['meals'][0]
+            
+            categoria, _ = Categoria.objects.get_or_create(
+                Nombre="Importada de API", 
+                defaults={'Descripción': 'Recetas obtenidas de servicios externos.'}
+            )
+            
+            ingredientes_lista = []
+            for i in range(1, 21):
+                ing = meal.get(f'strIngredient{i}')
+                med = meal.get(f'strMeasure{i}')
+                if ing and ing.strip():
+                    ingredientes_lista.append(f"- {ing.strip()} ({med.strip() if med else ''})")
+            
+            ingredientes_texto = "\n".join(ingredientes_lista)
+            
+            Receta.objects.create(
+                Título=meal['strMeal'],
+                Ingredientes=ingredientes_texto,
+                Pasos_de_elaboración=meal['strInstructions'],
+                Tiempo_de_preparación="30 minutos",  
+                Región="Mondstadt",                  
+                Autor=request.user,
+                Rareza=3                             
+            )
+            url_imagen = meal.get('strMealThumb')
+            if url_imagen:
+                try:
+                    img_response = requests.get(url_imagen)
+                    if img_response.status_code == 200:
+                        nombre_imagen = f"externa_{id_meal}.jpg"
+                        nueva_receta.Imagen.save(nombre_imagen, ContentFile(img_response.content), save=False)
+                except Exception:
+                    pass 
+            
+            nueva_receta.save()
+            
+    return redirect('lista_recetas')
