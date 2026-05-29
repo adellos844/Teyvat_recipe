@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ receta.Título }}</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
     <a href="{% url 'lista_recetas' %}">← Volver al listado</a>
     
     <h1>{{ receta.Título }}</h1>
+    
+    {% if user == receta.Autor %}
+        <p>
+            <a href="{% url 'editar_receta' receta.pk %}"> Editar Receta</a> | 
+            <a href="{% url 'eliminar_receta' receta.pk %}" style="color: red;"> Eliminar Receta</a>
+        </p>
+    {% endif %}
+
     <p><strong>Región:</strong> {{ receta.get_Región_display }}</p>
     <p><strong>Rareza:</strong> {{ receta.Rareza }} / 5 ⭐</p>
     <p><strong>Tiempo de preparación:</strong> {{ receta.Tiempo_de_preparación }}</p>
@@ -25,11 +34,27 @@
 
     <hr>
     <h3>Comentarios</h3>
+    
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Publicar Comentario</button>
+        </form>
+    {% else %}
+        <p><em>Inicia sesión desde el panel de administración para comentar.</em></p>
+    {% endif %}
+    <br>
+
     <ul>
         {% for comentario in comentarios %}
             <li>
                 <strong>{{ comentario.Autor.username }}</strong> ({{ comentario.Fecha_de_publicación|date:"d/m/Y H:i" }}):
                 <p>{{ comentario.Contenido }}</p>
+                
+                {% if user == comentario.Autor %}
+                    <a href="{% url 'eliminar_comentario' comentario.pk %}" style="color: red; font-size: 0.8em;">Eliminar mi comentario</a>
+                {% endif %}
             </li>
         {% empty %}
             <li>Nadie ha comentado esta receta aún.</li>

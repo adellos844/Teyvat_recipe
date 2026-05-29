@@ -3,20 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Recetario de Teyvat</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
     <h1>Recetas de Genshin Impact</h1>
+    
+    {% if user.is_authenticated %}
+        <p>Bienvenido, {{ user.username }} | <a href="{% url 'crear_receta' %}"> Crear Nueva Receta</a></p>
+    {% else %}
+        <p><a href="/admin/">Inicia sesión en el Admin</a> para crear recetas y comentar.</p>
+    {% endif %}
+
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Buscar por título o ingrediente..." value="{{ request.GET.q }}">
+        
+        <select name="region">
+            <option value="">Todas las regiones</option>
+            <option value="mondstadt">Mondstadt</option>
+            <option value="liyue">Liyue</option>
+            <option value="inazuma">Inazuma</option>
+            <option value="sumeru">Sumeru</option>
+            <option value="fontaine">Fontaine</option>
+            <option value="natlan">Natlan</option>
+            <option value="snezhnaya">Snezhnaya</option>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a href="{% url 'lista_recetas' %}">Limpiar filtros</a>
+    </form>
     <hr>
     <ul>
         {% for receta in recetas %}
             <li>
-                <a href="{% url 'detalle_recetas' receta.pk %}">
-                    <strong>{{ receta.Título }}</strong>
-                </a> 
-                - Región: {{ receta.get_Región_display }} | Rareza: {{ receta.Rareza }}⭐
+                <a href="{% url 'detalle_recetas' receta.pk %}"><strong>{{ receta.Título }}</strong></a> 
+                - Región: {{ receta.get_Región_display }} | Rareza: {{ receta.Rareza }}⭐ | Por: {{ receta.Autor.username }}
             </li>
         {% empty %}
-            <li>Aún no hay recetas registradas.</li>
+            <li>No se encontraron recetas con los filtros aplicados.</li>
         {% endfor %}
     </ul>
 </body>
