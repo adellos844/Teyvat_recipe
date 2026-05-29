@@ -17,8 +17,8 @@
     </div>
     
     <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-        
-        <div style="display: flex; align-items: center; gap: 12px; font-size: 0.95rem; background: #242f39; padding: 6px 16px; border-radius: 50px; border: 1px solid #2d3b48;">
+
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 0.95rem; background: #242f39; padding: 6px 16px; border-radius: 50px; border: 1px solid #2d3b48; height: 32px;">
             {% if user.is_authenticated %}
                 <span style="color: #a0aec0;">Bienvenido, <strong style="color: #ffffff;">{{ user.username }}</strong></span>
                 <span style="color: #4a5568;">•</span>
@@ -42,17 +42,17 @@
         {% if user.is_authenticated %}
             <a href="{% url 'crear_receta' %}" class="btn" style="padding: 8px 20px; font-size: 0.95rem;">➕ Nueva Receta</a>
         {% endif %}
+        <a href="{% url 'buscar_externo' %}" style="background: rgba(93, 173, 226, 0.1); color: #5dade2; padding: 6px 18px; border: 1px solid rgba(93, 173, 226, 0.3); border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            Recetas Externas
+        </a>
         
     </div>
-</header>
+        </header>
 
         <main>
             {% block content %}
             {% endblock %}
         </main>
     </div>
-    <a href="{% url 'buscar_externo' %}" style="color: #5dade2; text-decoration: none; font-weight: 600; margin-left: 10px;">
-        🌐 Recetas Externas
-    </a>
 </body>
 </html>
