@@ -1,18 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>{{ accion }} Receta</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
 </head>
 <body>
-    <h1>{{ accion }} Receta</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar Receta</button>
-    </form>
-    <br>
-    <a href="{% url 'lista_recetas' %}">Cancelar</a>
+    <div class="container" style="max-width: 600px;">
+        <div class="detalle-wrapper">
+            <h2>{{ accion }} Receta</h2>
+            <hr style="border: 1px solid #e2e8f0; margin-bottom: 20px;">
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn">Guardar Cambios</button>
+                    <a href="{% url 'lista_recetas' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

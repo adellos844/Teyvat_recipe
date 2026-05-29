@@ -23,7 +23,7 @@ def lista_recetas(request):
 
 def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
-    comentarios = receta.comentario_set.all().order_by('-Fecha_de_publicación')
+    comentarios = receta.comentario_set.all().order_by('Fecha_de_publicación')
     
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -34,7 +34,7 @@ def detalle_receta(request, pk):
             comentario.Receta_asociada = receta
             comentario.Autor = request.user
             comentario.save()
-            return redirect('detalle_receta', pk=receta.pk)
+            return redirect('detalle_recetas', pk=receta.pk)
     else:
         form = ComentarioForm()
 
@@ -92,5 +92,5 @@ def eliminar_comentario(request, pk):
     receta_pk = comentario.Receta_asociada.pk
     if request.method == 'POST':
         comentario.delete()
-        return redirect('detalle_receta', pk=receta_pk)
+        return redirect('detalle_recetas', pk=receta_pk)
     return render(request, 'recetario/confirmar_eliminar.html', {'objeto': comentario.Contenido[:30], 'tipo': 'comentario'})

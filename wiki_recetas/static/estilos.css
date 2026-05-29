@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Configuración General
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f5f7fb;
+    color: #2c3e50;
+    line-height: 1.6;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   Header / Encabezado
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #34495e, #d4a373);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    margin: 0;
+    color: #7f8c8d;
+}
+
+/* ==========================================================================
+   Botones
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #d4a373;
+    color: #ffffff !important;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(212, 163, 115, 0.2);
+}
+
+.btn:hover {
+    background-color: #b98a5a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(212, 163, 115, 0.3);
+    text-decoration: none;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-secondary {
+    background-color: #34495e;
+    box-shadow: 0 4px 6px rgba(52, 73, 94, 0.2);
+}
+
+.btn-secondary:hover {
+    background-color: #2c3e50;
+    box-shadow: 0 6px 12px rgba(52, 73, 94, 0.3);
+}
+
+/* ==========================================================================
+   Barra de Filtros y Buscador
+   ========================================================================== */
+.filtro-bar {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-bottom: 40px;
+}
+
+.filtro-bar form {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 15px;
+    margin: 0;
+    align-items: center;
+}
+
+input[type="text"], input[type="search"], select, textarea {
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #2c3e50;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #d4a373;
+}
+
+/* ==========================================================================
+   Grid y Tarjetas de Recetas
+   ========================================================================== */
+.recetas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e2e8f0;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+.card-body {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card h3 {
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.meta-info {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* ==========================================================================
+   Vista de Detalle de la Receta
+   ========================================================================== */
+.detalle-wrapper {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    margin-bottom: 40px;
+}
+
+.detalle-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.img-receta {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+
+.info-panel {
+    background: #f5f7fb;
+    padding: 25px;
+    border-radius: 12px;
+    height: fit-content;
+}
+
+.bloque-texto {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    white-space: pre-line;
+}
+
+/* ==========================================================================
+   Sección de Comentarios
+   ========================================================================== */
+.comentarios-seccion {
+    margin-top: 50px;
+}
+
+.comentario-form {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-bottom: 30px;
+}
+
+.comentario-box {
+    background: #ffffff;
+    border-left: 4px solid #d4a373;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.comentario-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+}

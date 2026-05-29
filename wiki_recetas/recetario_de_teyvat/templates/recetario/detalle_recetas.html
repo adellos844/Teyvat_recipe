@@ -1,64 +1,87 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>{{ receta.Título }}</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
 </head>
 <body>
-    <a href="{% url 'lista_recetas' %}">← Volver al listado</a>
-    
-    <h1>{{ receta.Título }}</h1>
-    
-    {% if user == receta.Autor %}
-        <p>
-            <a href="{% url 'editar_receta' receta.pk %}"> Editar Receta</a> | 
-            <a href="{% url 'eliminar_receta' receta.pk %}" style="color: red;"> Eliminar Receta</a>
-        </p>
-    {% endif %}
-
-    <p><strong>Región:</strong> {{ receta.get_Región_display }}</p>
-    <p><strong>Rareza:</strong> {{ receta.Rareza }} / 5 ⭐</p>
-    <p><strong>Tiempo de preparación:</strong> {{ receta.Tiempo_de_preparación }}</p>
-    <p><strong>Autor:</strong> {{ receta.Autor.username }}</p>
-
-    {% if receta.Imagen %}
-        <img src="{{ receta.Imagen.url }}" alt="{{ receta.Título }}" style="max-width: 300px;">
-    {% endif %}
-
-    <h3>Ingredientes</h3>
-    <p>{{ receta.Ingredientes|linebreaks }}</p>
-
-    <h3>Pasos de elaboración</h3>
-    <p>{{ receta.Pasos_de_elaboración|linebreaks }}</p>
-
-    <hr>
-    <h3>Comentarios</h3>
-    
-    {% if user.is_authenticated %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Publicar Comentario</button>
-        </form>
-    {% else %}
-        <p><em>Inicia sesión desde el panel de administración para comentar.</em></p>
-    {% endif %}
-    <br>
-
-    <ul>
-        {% for comentario in comentarios %}
-            <li>
-                <strong>{{ comentario.Autor.username }}</strong> ({{ comentario.Fecha_de_publicación|date:"d/m/Y H:i" }}):
-                <p>{{ comentario.Contenido }}</p>
-                
-                {% if user == comentario.Autor %}
-                    <a href="{% url 'eliminar_comentario' comentario.pk %}" style="color: red; font-size: 0.8em;">Eliminar mi comentario</a>
+    <div class="container">
+        <p><a href="{% url 'lista_recetas' %}" class="btn btn-secondary">← Volver al listado</a></p>
+        
+        <div class="detalle-wrapper">
+            <header>
+                <div>
+                    <h1>{{ receta.Título }}</h1>
+                    <p>Publicado por: <strong>{{ receta.Autor.username }}</strong></p>
+                </div>
+                {% if user == receta.Autor %}
+                    <div style="display: flex; gap: 10px;">
+                        <a href="{% url 'editar_receta' receta.pk %}" class="btn">Editar</a>
+                        <a href="{% url 'eliminar_receta' receta.pk %}" class="btn btn-danger">Eliminar</a>
+                    </div>
                 {% endif %}
-            </li>
-        {% empty %}
-            <li>Nadie ha comentado esta receta aún.</li>
-        {% endfor %}
-    </ul>
+            </header>
+
+            <div class="detalle-layout">
+                <div>
+                    {% if receta.Imagen %}
+                        <img src="{{ receta.Imagen.url }}" alt="{{ receta.Título }}" class="img-receta">
+                    {% else %}
+                        <div style="background: #e2e8f0; height: 250px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: #7f8c8d;">Sin imagen</div>
+                    {% endif %}
+                </div>
+                
+                <div class="info-panel">
+                    <h3>Detalles clave</h3>
+                    <p><strong>Región:</strong> {{ receta.get_Región_display }}</p>
+                    <p><strong>Rareza:</strong> {{ receta.Rareza }} / 5 Estrellas</p>
+                    <p><strong>⏱Elaboración:</strong> {{ receta.Tiempo_de_preparación }}</p>
+                </div>
+            </div>
+
+            <h3>Ingredientes</h3>
+            <div class="bloque-texto">{{ receta.Ingredientes }}</div>
+
+            <h3>Pasos de elaboración</h3>
+            <div class="bloque-texto">{{ receta.Pasos_de_elaboración }}</div>
+        </div>
+
+        <div class="comentarios-seccion">
+            <h2>Comentarios</h2>
+            
+            {% if user.is_authenticated %}
+                <div class="comentario-form">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn">Publicar Comentario</button>
+                    </form>
+                </div>
+            {% else %}
+                <p><em>Inicia sesión para dejar un comentario.</em></p>
+            {% endif %}
+
+            <div style="margin-top: 20px;">
+                {% for comentario in comentarios %}
+                    <div class="comentario-box">
+                        <div class="comentario-header">
+                            <span><strong>{{ comentario.Autor.username }}</strong></span>
+                            <span>{{ comentario.Fecha_de_publicación|date:"d/m/Y H:i" }}</span>
+                        </div>
+                        <p style="margin: 10px 0 0 0;">{{ comentario.Contenido }}</p>
+                        {% if user == comentario.Autor %}
+                            <p style="margin: 10px 0 0 0; text-align: right;">
+                                <a href="{% url 'eliminar_comentario' comentario.pk %}" class="btn btn-danger" style="padding: 4px 10px; font-size: 0.8rem;">Eliminar</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p style="color: #7f8c8d;">Nadie ha comentado esta receta aún.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
