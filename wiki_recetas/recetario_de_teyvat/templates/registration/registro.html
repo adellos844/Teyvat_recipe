@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrarse - Recetario de Teyvat{% endblock %}
+
+{% block content %}
+<style>
+    .detalle-wrapper .helptext, 
+    .detalle-wrapper ul, 
+    .detalle-wrapper li {
+        display: none !important;
+    }
+    .detalle-wrapper ul.errorlist, 
+    .detalle-wrapper ul.errorlist li {
+        display: block !important;
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+</style>
+
+<div class="detalle-wrapper" style="max-width: 500px; margin: 40px auto;">
+    <h2>Crear una Cuenta</h2>
+    <hr style="border: 1px solid #2d3b48; margin-bottom: 20px;">
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Registrarse</button>
+    </form>
+    
+    <p style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #a0aec0;">
+        ¿Ya tienes cuenta? <a href="{% url 'login' %}" style="color: #d4a373;">Inicia sesión aquí</a>
+    </p>
+</div>
+{% endblock %}

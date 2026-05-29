@@ -1,13 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ accion }} Receta</title>
-    <link rel="stylesheet" href="{% static 'estilos.css' %}">
-</head>
-<body>
-    <div class="container" style="max-width: 600px;">
+{% extends 'base.html' %}
+
+{% block title %}{{ accion }} Receta - Recetario de Teyvat{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 600px; padding: 0;">
         <div class="detalle-wrapper">
             <h2>{{ accion }} Receta</h2>
             <hr style="border: 1px solid #e2e8f0; margin-bottom: 20px;">
@@ -22,5 +18,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

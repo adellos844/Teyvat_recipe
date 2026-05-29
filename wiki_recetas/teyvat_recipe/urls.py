@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings 
 from django.conf.urls.static import static
+from django.contrib.auth.views import LoginView, LogoutView
 from recetario_de_teyvat import views as recetario_views
 
 urlpatterns = [
@@ -28,6 +29,9 @@ urlpatterns = [
     path('recetas/<int:pk>/editar/', recetario_views.editar_receta, name='editar_receta'),
     path('recetas/<int:pk>/eliminar/', recetario_views.eliminar_receta, name='eliminar_receta'),
     path('comentarios/<int:pk>/eliminar/', recetario_views.eliminar_comentario, name='eliminar_comentario'),
+    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('registro/', recetario_views.registro, name='registro'),
 ]
 
 if settings.DEBUG:

@@ -3,8 +3,8 @@
    ========================================================================== */
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background-color: #f5f7fb;
-    color: #2c3e50;
+    background-color: #1a232a;
+    color: #f5f7fb;
     line-height: 1.6;
     margin: 0;
     padding: 40px 20px;
@@ -15,87 +15,96 @@ body {
     margin: 0 auto;
 }
 
+h1, h2, h3 {
+    color: #ffffff;
+    margin-top: 0;
+}
+
+a {
+    color: #5dade2;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #3498db;
+    text-decoration: underline;
+}
+
 /* ==========================================================================
    Header / Encabezado
    ========================================================================== */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 20px;
-}
-
 header h1 {
     margin: 0 0 10px 0;
     font-size: 2.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #34495e, #d4a373);
+    background: linear-gradient(135deg, #5dade2, #d4a373);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 header p {
     margin: 0;
-    color: #7f8c8d;
+    color: #a0aec0;
 }
 
 /* ==========================================================================
-   Botones
+   Botones Premium
    ========================================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 24px;
-    background-color: #d4a373;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #d4a373, #b98a5a);
     color: #ffffff !important;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 50px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
-    box-shadow: 0 4px 6px rgba(212, 163, 115, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn:hover {
-    background-color: #b98a5a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(212, 163, 115, 0.3);
+    background: linear-gradient(135deg, #e5b383, #c99a6a);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 163, 115, 0.4);
     text-decoration: none;
 }
 
 .btn-danger {
-    background-color: #e74c3c;
-    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+    background: #e74c3c;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
 }
 
 .btn-danger:hover {
-    background-color: #c0392b;
-    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+    background: #c0392b;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
 }
 
 .btn-secondary {
-    background-color: #34495e;
-    box-shadow: 0 4px 6px rgba(52, 73, 94, 0.2);
+    background: #2d3b48;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary:hover {
-    background-color: #2c3e50;
-    box-shadow: 0 6px 12px rgba(52, 73, 94, 0.3);
+    background: #3d4f61;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* ==========================================================================
-   Barra de Filtros y Buscador
+   Formularios e Inputs (General y Autenticación)
    ========================================================================== */
 .filtro-bar {
-    background: #ffffff;
+    background: #242f39;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     margin-bottom: 40px;
+    border: 1px solid #2d3b48;
 }
 
 .filtro-bar form {
@@ -106,14 +115,20 @@ header p {
     align-items: center;
 }
 
-input[type="text"], input[type="search"], select, textarea {
+/* Estilos unificados para inputs de texto, select, textareas y passwords */
+input[type="text"], 
+input[type="search"], 
+input[type="password"], 
+input[type="email"], 
+select, 
+textarea {
     padding: 12px 16px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #2d3b48;
     border-radius: 8px;
-    background-color: #ffffff;
-    color: #2c3e50;
+    background-color: #1a232a;
+    color: #f5f7fb;
     font-size: 1rem;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
     width: 100%;
     box-sizing: border-box;
 }
@@ -121,6 +136,22 @@ input[type="text"], input[type="search"], select, textarea {
 input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: #d4a373;
+    box-shadow: 0 0 8px rgba(212, 163, 115, 0.2);
+}
+
+/* Distribución para formularios verticales como Login/Registro (form.as_p) */
+.detalle-wrapper form p, 
+.comentario-form form p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.detalle-wrapper .helptext {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-top: 4px;
 }
 
 /* ==========================================================================
@@ -133,19 +164,19 @@ input:focus, select:focus, textarea:focus {
 }
 
 .card {
-    background: #ffffff;
+    background: #242f39;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #2d3b48;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.4);
 }
 
 .card-body {
@@ -159,12 +190,11 @@ input:focus, select:focus, textarea:focus {
 .card h3 {
     font-size: 1.4rem;
     margin: 0 0 10px 0;
-    color: #2c3e50;
 }
 
 .meta-info {
     font-size: 0.85rem;
-    color: #7f8c8d;
+    color: #a0aec0;
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
@@ -174,11 +204,12 @@ input:focus, select:focus, textarea:focus {
    Vista de Detalle de la Receta
    ========================================================================== */
 .detalle-wrapper {
-    background: #ffffff;
+    background: #242f39;
     padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     margin-bottom: 40px;
+    border: 1px solid #2d3b48;
 }
 
 .detalle-layout {
@@ -193,22 +224,25 @@ input:focus, select:focus, textarea:focus {
     max-height: 400px;
     object-fit: cover;
     border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
 }
 
 .info-panel {
-    background: #f5f7fb;
+    background: #1a232a;
     padding: 25px;
     border-radius: 12px;
     height: fit-content;
+    border: 1px solid #2d3b48;
 }
 
 .bloque-texto {
-    background: #ffffff;
+    background: #1a232a;
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #2d3b48;
+    color: #f5f7fb;
     white-space: pre-line;
+    margin-bottom: 25px;
 }
 
 /* ==========================================================================
@@ -219,26 +253,30 @@ input:focus, select:focus, textarea:focus {
 }
 
 .comentario-form {
-    background: #ffffff;
+    background: #242f39;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     margin-bottom: 30px;
+    border: 1px solid #2d3b48;
 }
 
 .comentario-box {
-    background: #ffffff;
+    background: #242f39;
     border-left: 4px solid #d4a373;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 0 12px 12px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border-top: 1px solid #2d3b48;
+    border-right: 1px solid #2d3b48;
+    border-bottom: 1px solid #2d3b48;
 }
 
 .comentario-header {
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: #a0aec0;
     margin-bottom: 8px;
 }

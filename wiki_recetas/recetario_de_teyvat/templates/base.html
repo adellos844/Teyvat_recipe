@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Recetario de Teyvat{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 2px solid #2d3b48; padding-bottom: 20px; flex-wrap: wrap; gap: 20px;">
+    <div>
+        <a href="{% url 'lista_recetas' %}" style="text-decoration: none;">
+            <h1 style="margin: 0; font-size: 2.3rem;">Recetas de Genshin Impact</h1>
+        </a>
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+        
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 0.95rem; background: #242f39; padding: 6px 16px; border-radius: 50px; border: 1px solid #2d3b48;">
+            {% if user.is_authenticated %}
+                <span style="color: #a0aec0;">Bienvenido, <strong style="color: #ffffff;">{{ user.username }}</strong></span>
+                <span style="color: #4a5568;">•</span>
+                <form action="{% url 'logout' %}" method="POST" style="display: inline; margin: 0; padding: 0; background: none; box-shadow: none; border: none;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: #e74c3c; font-weight: 600; cursor: pointer; padding: 0; font-family: inherit;">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: #d4a373; font-weight: 600; text-decoration: none;">
+                    Iniciar Sesión
+                </a>
+                <span style="color: #4a5568;">|</span>
+                <a href="{% url 'registro' %}" style="color: #a0aec0; text-decoration: none;">
+                    Registrarse
+                </a>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'crear_receta' %}" class="btn" style="padding: 8px 20px; font-size: 0.95rem;">➕ Nueva Receta</a>
+        {% endif %}
+        
+    </div>
+</header>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

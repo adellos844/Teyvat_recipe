@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from .models import Receta, Comentario
 from .forms import RecetaForm, ComentarioForm
 
@@ -94,3 +96,18 @@ def eliminar_comentario(request, pk):
         comentario.delete()
         return redirect('detalle_recetas', pk=receta_pk)
     return render(request, 'recetario/confirmar_eliminar.html', {'objeto': comentario.Contenido[:30], 'tipo': 'comentario'})
+
+def registro(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'¡Cuenta creada para {username}! Ya puedes iniciar sesión.')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    form.fields['username'].label = "Nombre de usuario"
+    form.fields['password1'].label = "Contraseña"
+    form.fields['password2'].label = "Confirmar contraseña"
+    return render(request, 'registration/registro.html', {'form': form})

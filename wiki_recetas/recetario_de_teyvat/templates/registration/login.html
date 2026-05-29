@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión - Recetario de Teyvat{% endblock %}
+
+{% block content %}
+<div class="detalle-wrapper" style="max-width: 500px; margin: 40px auto;">
+    <h2>Iniciar Sesión</h2>
+    <hr style="border: 1px solid #2d3b48; margin-bottom: 20px;">
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <p>
+            <label for="id_username">Nombre de usuario:</label>
+            {{ form.username }}
+        </p>
+        
+        <p>
+            <label for="id_password">Contraseña:</label>
+            {{ form.password }}
+        </p>
+        
+        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Ingresar</button>
+    </form>
+    
+    <p style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #a0aec0;">
+        ¿No tienes cuenta? <a href="{% url 'registro' %}" style="color: #d4a373;">Regístrate aquí</a>
+    </p>
+</div>
+{% endblock %}
