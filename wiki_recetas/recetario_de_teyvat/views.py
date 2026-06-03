@@ -154,7 +154,7 @@ def guardar_receta_externa(request):
             
             ingredientes_texto = "\n".join(ingredientes_lista)
             
-            Receta.objects.create(
+            nueva_receta = Receta.objects.create(
                 Título=meal['strMeal'],
                 Ingredientes=ingredientes_texto,
                 Pasos_de_elaboración=meal['strInstructions'],
@@ -171,8 +171,8 @@ def guardar_receta_externa(request):
                         nombre_imagen = f"externa_{id_meal}.jpg"
                         nueva_receta.Imagen.save(nombre_imagen, ContentFile(img_response.content), save=False)
                 except Exception:
-                    pass 
-            
+                    pass
+
             nueva_receta.save()
             
     return redirect('lista_recetas')

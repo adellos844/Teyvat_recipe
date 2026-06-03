@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Inicio - Recetario de Teyvat{% endblock %}
+{% block title %}Recetario de Teyvat{% endblock %}
 
 {% block content %}
+    <h1>Recetas de Genshin Impact</h1>
+    
+    {% if user.is_authenticated %}
+        <p>Bienvenido, {{ user.username }} | <a href="{% url 'crear_receta' %}"> Crear Nueva Receta</a></p>
+    {% else %}
+        <p><a href="/admin/">Inicia sesión en el Admin</a> para crear recetas y comentar.</p>
+    {% endif %}
+
     <div class="filtro-bar">
         <form method="GET" action="">
-            <input type="search" name="q" placeholder="Buscar por título o ingrediente..." value="{{ request.GET.q }}">
+            <input type="text" name="q" placeholder="Buscar por título o ingrediente..." value="{{ request.GET.q }}">
             
             <select name="region">
                 <option value="">Todas las regiones</option>
@@ -17,29 +25,19 @@
                 <option value="natlan">Natlan</option>
                 <option value="snezhnaya">Snezhnaya</option>
             </select>
-            
-            <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn">Filtrar</button>
-                <a href="{% url 'lista_recetas' %}" class="btn btn-secondary">Limpiar</a>
-            </div>
+            <button type="submit" class="btn">Filtrar</button>
+            <a class="btn btn-secondary" href="{% url 'lista_recetas' %}">Limpiar filtros</a>
         </form>
     </div>
-
-    <div class="recetas-grid">
+    <hr>
+    <ul>
         {% for receta in recetas %}
-            <div class="card">
-                <div class="card-body">
-                    <h3>{{ receta.Título }}</h3>
-                    <div class="meta-info">
-                        <span>📍{{ receta.get_Región_display }}</span>
-                        <span>⭐{{ receta.Rareza }}/5</span>
-                        <span>👤{{ receta.Autor.username }}</span>
-                    </div>
-                    <a href="{% url 'detalle_recetas' receta.pk %}" class="btn" style="text-align: center;">Ver Detalles</a>
-                </div>
-            </div>
+            <li>
+                <a href="{% url 'detalle_recetas' receta.pk %}"><strong>{{ receta.Título }}</strong></a> 
+                - Región: {{ receta.get_Región_display }} | Rareza: {{ receta.Rareza }}⭐ | Por: {{ receta.Autor.username }}
+            </li>
         {% empty %}
-            <p style="grid-column: 1/-1; text-align: center; color: #7f8c8d;">No se encontraron recetas con los filtros aplicados.</p>
+            <li>No se encontraron recetas con los filtros aplicados.</li>
         {% endfor %}
-    </div>
+    </ul>
 {% endblock %}
