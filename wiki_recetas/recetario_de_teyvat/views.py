@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import Receta, Comentario, Categoria
+from .models import Receta, Comentario, Categoria, Puntuacion
 from .forms import RecetaForm, ComentarioForm
 
 def lista_recetas(request):
@@ -45,7 +45,8 @@ def detalle_receta(request, pk):
     return render(request, 'recetario/detalle_recetas.html', {
         'receta': receta, 
         'comentarios': comentarios,
-        'form': form
+        'form': form,
+        'puntuacion_usuario': receta.puntuacion_usuario(request.user),
     })
 
 @login_required
@@ -127,6 +128,22 @@ def buscar_recetas_externas(request):
             resultados = data['meals']
             
     return render(request, 'buscar_externo.html', {'resultados': resultados, 'query': query})
+
+@login_required
+def puntuar_receta(request, pk):
+    receta = get_object_or_404(Receta, pk=pk)
+    if request.method == 'POST':
+        valor = request.POST.get('valor')
+        if valor and valor.isdigit() and 1 <= int(valor) <= 5:
+            puntuacion, created = Puntuacion.objects.get_or_create(
+                Receta=receta,
+                Autor=request.user,
+                defaults={'Valor': int(valor)}
+            )
+            if not created:
+                puntuacion.Valor = int(valor)
+                puntuacion.save()
+    return redirect('detalle_recetas', pk=receta.pk)
 
 @login_required
 def guardar_receta_externa(request):

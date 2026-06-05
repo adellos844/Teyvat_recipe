@@ -35,6 +35,8 @@
             <li>
                 <a href="{% url 'detalle_recetas' receta.pk %}"><strong>{{ receta.Título }}</strong></a> 
                 - Región: {{ receta.get_Región_display }} | Rareza: {{ receta.Rareza }}⭐ | Por: {{ receta.Autor.username }}
+                <br>
+                <small>Puntuación media: {{ receta.puntuacion_media }} / 5 ({{ receta.numero_puntuaciones }} vote{{ receta.numero_puntuaciones|pluralize }})</small>
             </li>
         {% empty %}
             <li>No se encontraron recetas con los filtros aplicados.</li>

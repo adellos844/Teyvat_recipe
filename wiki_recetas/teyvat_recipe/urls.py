@@ -33,6 +33,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('registro/', recetario_views.registro, name='registro'),
     path('buscar-externo/', recetario_views.buscar_recetas_externas, name='buscar_externo'),
+    path('recetas/<int:pk>/puntuar/', recetario_views.puntuar_receta, name='puntuar_receta'),
     path('guardar-externo/', recetario_views.guardar_receta_externa, name='guardar_receta_externa'),
 ]
 

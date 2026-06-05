@@ -17,11 +17,32 @@
 
     <p><strong>Región:</strong> {{ receta.get_Región_display }}</p>
     <p><strong>Rareza:</strong> {{ receta.Rareza }} / 5 ⭐</p>
+    <p><strong>Puntuación media:</strong> {{ receta.puntuacion_media }} / 5 ({{ receta.numero_puntuaciones }} voto{{ receta.numero_puntuaciones|pluralize }})</p>
+    {% if puntuacion_usuario %}
+        <p><strong>Tu voto:</strong> {{ puntuacion_usuario.Valor }} / 5</p>
+    {% endif %}
     <p><strong>Tiempo de preparación:</strong> {{ receta.Tiempo_de_preparación }}</p>
     <p><strong>Autor:</strong> {{ receta.Autor.username }}</p>
 
     {% if receta.Imagen %}
         <img src="{{ receta.Imagen.url }}" alt="{{ receta.Título }}" style="max-width: 300px;">
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="filtro-bar" style="margin-top: 20px;">
+            <form method="POST" action="{% url 'puntuar_receta' receta.pk %}">
+                {% csrf_token %}
+                <label for="valor">Valora esta receta:</label>
+                <select name="valor" id="valor" style="width: 80px;">
+                    {% for i in "12345" %}
+                        <option value="{{ forloop.counter }}" {% if puntuacion_usuario and puntuacion_usuario.Valor == forloop.counter %}selected{% endif %}>{{ forloop.counter }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn" style="margin-left: 10px;">Enviar voto</button>
+            </form>
+        </div>
+    {% else %}
+        <p><em>Inicia sesión para puntuar esta receta.</em></p>
     {% endif %}
 
     <h3>Ingredientes</h3>
